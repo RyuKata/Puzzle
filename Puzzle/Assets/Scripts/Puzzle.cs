@@ -4,8 +4,8 @@ using System.Collections;
 public class Puzzle : MonoBehaviour {
 
 	public GameObject[] dropPrefabs;
-
 	public Drop[,] drops = new Drop[5,6];
+
 	int height = 5;
 	int width = 6;
 	float dropSize = 1.1f;
@@ -16,7 +16,6 @@ public class Puzzle : MonoBehaviour {
 
 		while(true){
 		  SetDrops ();
-
 			if (checkMatch ().Count == 0) {
 				break;
 			}
@@ -111,6 +110,5 @@ public class Puzzle : MonoBehaviour {
 				Instantiate(drops[i,j].drop,pos,Quaternion.identity);
 			}
 		}
-	}
-		
+	}		
 }

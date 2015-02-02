@@ -20,10 +20,10 @@ public struct DropPoint{
 		w = dw;
 	}
 
-	public static bool operator== (DropPoint a,DropPoint b){
+	public static bool operator == (DropPoint a,DropPoint b){
 		return (a.h == b.h && a.w == b.w);
 	}
-	public static bool operator!= (DropPoint a,DropPoint b){
+	public static bool operator != (DropPoint a,DropPoint b){
 		return !(a.h == b.h && a.w == b.w);
 	}
 }
