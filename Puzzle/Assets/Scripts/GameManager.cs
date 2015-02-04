@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour {
 	State state;
 	GameObject tapDrop;
 	GameObject moveDrop;
-	Color dropColor;
+	CircleCollider2D circleCollider2d;
 
 	// Use this for initialization
 	void Start () {
@@ -37,9 +37,16 @@ public class GameManager : MonoBehaviour {
 
 				if (col) {
 					tapDrop = col.transform.gameObject;
-					dropColor = tapDrop.renderer.material.color;
-					tapDrop.renderer.material.color = new Color(dropColor.r,dropColor.g,dropColor.b,0.5f);
+
 					moveDrop = Object.Instantiate(col.transform.gameObject) as GameObject;
+					moveDrop.AddComponent("MoveDrop");
+					moveDrop.AddComponent ("Rigidbody2D");
+					moveDrop.rigidbody2D.gravityScale = 0;
+					circleCollider2d = moveDrop.GetComponent<CircleCollider2D> ();
+					circleCollider2d.radius = 0.01f;
+
+					tapDrop.renderer.material.color = new Color(1,1,1,0.5f);
+					tapDrop.collider2D.enabled = false;
 				}
 			}
 
@@ -53,7 +60,8 @@ public class GameManager : MonoBehaviour {
 
 			if (Input.GetMouseButtonUp (0)) {
 				if (tapDrop != null) {
-					tapDrop.renderer.material.color = dropColor;
+					tapDrop.renderer.material.color = new Color(1,1,1,1);
+					tapDrop.collider2D.enabled = true;
 					tapDrop = null;
 					Destroy (moveDrop);
 //				state = State.COMBO;
