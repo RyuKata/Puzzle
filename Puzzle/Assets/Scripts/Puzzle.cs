@@ -3,12 +3,11 @@ using System.Collections;
 
 public class Puzzle : MonoBehaviour {
 
-	public GameObject[] dropPrefabs;
+	[SerializeField]
+	GameObject[] dropPrefabs;
 	public Drop[,] drops = new Drop[5,6];
 
-	int height = 5;
-	int width = 6;
-	float dropSize = 1.1f;
+	float dropSize = 1.05f;
 
 
 	// Use this for initialization
@@ -31,25 +30,25 @@ public class Puzzle : MonoBehaviour {
 
 
 	void SetDrops(){
-		for (var h = 0; h < height; h++) {
-			for (var w = 0; w < width; w++) {
+		for (var h = 0; h < Data.height; h++) {
+			for (var w = 0; w < Data.width; w++) {
 				var type = Random.Range (0,6);
 
-				drops[h,w] = new Drop(dropPrefabs[type],(Type)type,new DropPoint(h,w));
+				drops[h,w] = new Drop(dropPrefabs[type],(Data.Type)type,new DropPoint(h,w));
 			}
 		}
 	}
 
 
-	ArrayList checkMatch(){
+	public ArrayList checkMatch(){
 		ArrayList matchList = new ArrayList();
 
-		for (var h = 0; h < height; h++) {
-			for (var w = 0; w < width - 2; w++) {
+		for (var h = 0; h < Data.height; h++) {
+			for (var w = 0; w < Data.width - 2; w++) {
 				var countMatch = 1;
 
-				for (var w2 = w + 1; w2 < width; w2++) {
-					if (drops [h, w].type != Type.EMPTY && drops [h, w].type == drops [h, w2].type) {
+				for (var w2 = w + 1; w2 < Data.width; w2++) {
+					if (drops [h, w].type != Data.Type.EMPTY && drops [h, w].type == drops [h, w2].type) {
 						countMatch++;
 					} else {
 						break;
@@ -66,12 +65,12 @@ public class Puzzle : MonoBehaviour {
 
 		int checkExist = matchList.Count;
 
-		for (var w = 0; w < width; w++) {
-			for (var h = 0; h < height - 2; h++) {
+		for (var w = 0; w < Data.width; w++) {
+			for (var h = 0; h < Data.height - 2; h++) {
 				var countMatch = 1;
 
-				for (var h2 = h + 1; h2 < height; h2++) {
-					if (drops [h, w].type != Type.EMPTY && drops [h, w].type == drops [h2, w].type) {
+				for (var h2 = h + 1; h2 < Data.height; h2++) {
+					if (drops [h, w].type != Data.Type.EMPTY && drops [h, w].type == drops [h2, w].type) {
 						countMatch++;
 					} else {
 						break;
@@ -104,10 +103,14 @@ public class Puzzle : MonoBehaviour {
 
 
 	void DisplayDrops(){
-		for (var i = 0; i < height; i++) {
-			for (var j = 0; j < width; j++) {
-				var pos = new Vector3(j * dropSize,i * dropSize,0);
-				Instantiate(drops[i,j].drop,pos,Quaternion.identity);
+		for (var h = 0; h < Data.height; h++) {
+			for (var w = 0; w < Data.width; w++) {
+				var pos = new Vector3(w * dropSize,h * dropSize,0);
+				GameObject drop;
+
+				drop = (GameObject)Instantiate(drops[h,w].drop,pos,Quaternion.identity);
+				drop.transform.parent = gameObject.transform;
+				drop.name = drops [h, w].point.ToString ();
 			}
 		}
 	}		

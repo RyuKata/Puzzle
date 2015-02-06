@@ -13,15 +13,17 @@ public class GameManager : MonoBehaviour {
 		GAMEOVER
 	}
 
-	int operate = 4;
-	State state;
 	GameObject tapDrop;
 	GameObject moveDrop;
+	int operate = 4;
+	State state;
 	CircleCollider2D circleCollider2d;
+	Puzzle puzzle;
 
 	// Use this for initialization
 	void Start () {
 		state = State.WAIT;
+		puzzle = GameObject.Find ("Puzzle").GetComponent<Puzzle> ();
 	}
 	
 	// Update is called once per frame
@@ -42,6 +44,8 @@ public class GameManager : MonoBehaviour {
 					moveDrop.AddComponent("MoveDrop");
 					moveDrop.AddComponent ("Rigidbody2D");
 					moveDrop.rigidbody2D.gravityScale = 0;
+					MoveDrop mvScript = moveDrop.GetComponent<MoveDrop> ();
+					mvScript.tapDrop = tapDrop;
 					circleCollider2d = moveDrop.GetComponent<CircleCollider2D> ();
 					circleCollider2d.radius = 0.01f;
 
