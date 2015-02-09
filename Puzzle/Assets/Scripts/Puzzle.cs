@@ -43,14 +43,17 @@ public class Puzzle : MonoBehaviour {
 	public ArrayList checkMatch(){
 		ArrayList matchList = new ArrayList();
 
+		//横にチェック
 		for (var h = 0; h < Data.height; h++) {
 			for (var w = 0; w < Data.width - 2; w++) {
 				var countMatch = 1;
+				int nextW = w;
 
 				for (var w2 = w + 1; w2 < Data.width; w2++) {
 					if (drops [h, w].type != Data.Type.EMPTY && drops [h, w].type == drops [h, w2].type) {
 						countMatch++;
 					} else {
+						nextW = w2 - 1;
 						break;
 					}
 				}
@@ -60,19 +63,24 @@ public class Puzzle : MonoBehaviour {
 						matchList.Add (drops[h,w + matchDrop]);
 					}
 				}
+				w = nextW;
 			}
 		}
 
 		int checkExist = matchList.Count;
 
+		//縦にチェック
+	
 		for (var w = 0; w < Data.width; w++) {
 			for (var h = 0; h < Data.height - 2; h++) {
 				var countMatch = 1;
+				int nextH = h;
 
 				for (var h2 = h + 1; h2 < Data.height; h2++) {
 					if (drops [h, w].type != Data.Type.EMPTY && drops [h, w].type == drops [h2, w].type) {
 						countMatch++;
 					} else {
+						nextH = h2 - 1;
 						break;
 					}
 				}
@@ -95,6 +103,7 @@ public class Puzzle : MonoBehaviour {
 						}
 					}
 				}
+				h = nextH;
 			}
 		}
 
@@ -114,4 +123,9 @@ public class Puzzle : MonoBehaviour {
 			}
 		}
 	}		
+
+	public void Combo(){
+		Debug.Log (checkMatch ().Count);
+	}
+
 }
